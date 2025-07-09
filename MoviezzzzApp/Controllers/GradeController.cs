@@ -1,0 +1,48 @@
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using MoviezzzzApp.config;
+using MoviezzzzApp.models.entites;
+
+namespace MoviezzzzApp.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class GradeController : ControllerBase
+    {
+
+        private readonly AppDbContext _context;
+        public GradeController(AppDbContext context)
+        {
+            _context = context;
+        }
+
+
+
+
+        //to get all the grades in for the movies
+        [HttpGet("getallGrades")]
+        public async Task<IActionResult> ReturnGrades()
+        {
+            var grades = await _context.Grade.ToListAsync();
+            return Ok(grades);
+
+        }
+
+
+
+
+        //to create the grade to the table
+        [HttpPost("addgrade")]
+        public async Task<IActionResult> CreateGrade([FromBody] Grade grade)
+        {
+            if (await _context.Grade.FirstOrDefaultAsync(p => p.GrageName == grade.GrageName) == null)
+            {
+                await _context.Grade.AddAsync(grade);
+                await _context.SaveChangesAsync();
+                return Ok("grade added");
+            }
+            else return BadRequest("already have or error");
+        }
+    }
+}

@@ -1,4 +1,6 @@
-﻿namespace MoviezzzzApp.models.entites
+﻿using System.Text.Json.Serialization;
+
+namespace MoviezzzzApp.models.entites
 {
     public class Person
     {
@@ -8,6 +10,7 @@
         public string? Biography { get; set; }
         public DateTime DateOfBirth { get; set; }
         public List<Role>? Roles { get; set; }
+        [JsonIgnore]
         public List<MovieDetails>? MovieDetails { get; set; }
     }
 }
