@@ -54,7 +54,7 @@ namespace MoviezzzzApp.Controllers
                     ReleaseDate = moviedao.ReleaseDate,
                     Cast = await _context.Person.Where(p => moviedao.cast.Contains(p.PersonName)).ToListAsync(),
                     Genres = await _context.Genres.Where(g => moviedao.genrs.Contains(g.GenresName)).ToListAsync(),
-                    Grade = await _context.Grade.FirstOrDefaultAsync(g => g.GrageName.Equals(moviedao.grade))
+                    Grade = await _context.Grade.FirstOrDefaultAsync(g => g.GradeName.Equals(moviedao.grade))
                 };
 
 

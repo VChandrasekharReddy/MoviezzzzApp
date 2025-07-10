@@ -1,0 +1,41 @@
+﻿@page
+@model MoviezzClient.Pages.RoleModel
+@{
+    ViewData["Title"] = "Roles";
+}
+
+<h2>Roles</h2>
+
+<!-- Form to add a new role -->
+<form method="post">
+    <div class="form-group">
+        <label asp-for="role.RoleName">Role Name</label>
+        <input asp-for="role.RoleName" class="form-control" />
+        <span asp-validation-for="role.RoleName" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Add Role</button>
+</form>
+
+<hr />
+
+<!-- Display existing roles -->
+<h3>Existing Roles</h3>
+@if (Model.roles != null && Model.roles.Any())
+{
+    <ul>
+        @foreach (var role in Model.roles)
+        {
+            <li>@role.RoleName</li>
+        }
+    </ul>
+}
+else
+{
+    <p>No roles found.</p>
+}
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

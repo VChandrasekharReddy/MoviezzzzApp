@@ -5,7 +5,7 @@ VisualStudioVersion = 17.14.36212.18
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoviezzzzApp", "MoviezzzzApp\MoviezzzzApp.csproj", "{9E2694AE-FA0A-4C67-8207-CCF863344C0F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "moviezzzzClient", "moviezzzzClient\moviezzzzClient.csproj", "{4B8418C2-A368-4A01-8157-B866C57A9FA3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoviezzClient", "MoviezzClient\MoviezzClient.csproj", "{D0AFC399-C8E1-450A-9123-3601EE1F38E8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{9E2694AE-FA0A-4C67-8207-CCF863344C0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9E2694AE-FA0A-4C67-8207-CCF863344C0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9E2694AE-FA0A-4C67-8207-CCF863344C0F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4B8418C2-A368-4A01-8157-B866C57A9FA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4B8418C2-A368-4A01-8157-B866C57A9FA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4B8418C2-A368-4A01-8157-B866C57A9FA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4B8418C2-A368-4A01-8157-B866C57A9FA3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0AFC399-C8E1-450A-9123-3601EE1F38E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0AFC399-C8E1-450A-9123-3601EE1F38E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0AFC399-C8E1-450A-9123-3601EE1F38E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0AFC399-C8E1-450A-9123-3601EE1F38E8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

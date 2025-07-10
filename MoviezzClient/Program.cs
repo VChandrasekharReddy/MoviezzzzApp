@@ -1,11 +1,19 @@
+using MoviezzClient.service;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
-builder.Services.AddHttpClient("ApiClient", client =>
+builder.Services.AddHttpClient<GradeService>("movieclient", client =>
 {
-    client.BaseAddress = new Uri("https://localhost:7046/api/Ardhamatic");
+    client.BaseAddress = new Uri("https://localhost:7046/api/");
 });
+builder.Services.AddScoped<GradeService>();
+builder.Services.AddScoped<GanresService>();
+builder.Services.AddScoped<RoleService>();
+builder.Services.AddScoped<PersonService>();
+
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

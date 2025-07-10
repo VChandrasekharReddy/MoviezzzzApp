@@ -1,0 +1,37 @@
+﻿@page
+@model MoviezzClient.Pages.GradeModel
+@{
+    ViewData["Title"] = "Grades";
+}
+
+<h2>Add Grade</h2>
+
+<form method="post">
+    <div class="form-group">
+        <label asp-for="Grade.GradeName" class="form-label">Grade Name</label>
+        <input asp-for="Grade.GradeName" class="form-control" placeholder="Enter grade name" />
+        <span asp-validation-for="Grade.GradeName" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary mt-2">Add Grade</button>
+</form>
+
+<hr />
+
+<h3>Existing Grades</h3>
+@if (Model.gradeDtos != null && Model.gradeDtos.Any())
+{
+    <ul class="list-group">
+        @foreach (var grade in Model.gradeDtos)
+        {
+            <li class="list-group-item">@grade.GradeName</li>
+        }
+    </ul>
+}
+else
+{
+    <p>No grades available.</p>
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

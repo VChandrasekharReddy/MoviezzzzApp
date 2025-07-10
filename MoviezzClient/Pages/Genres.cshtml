@@ -1,0 +1,38 @@
+﻿@page
+@model MoviezzClient.Pages.GanresModel
+@{
+    ViewData["Title"] = "Genres";
+}
+
+<h2>Add Genre</h2>
+
+<form method="post">
+    <div class="form-group">
+        <label asp-for="Ganres.GenresName" class="form-label">Genre Name</label>
+        <input asp-for="Ganres.GenresName" class="form-control" placeholder="Enter genre name" />
+        <span asp-validation-for="Ganres.GenresName" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary mt-2">Add Genre</button>
+</form>
+
+<hr />
+
+<h3>Existing Genres</h3>
+
+@if (Model.ganres != null && Model.ganres.Any())
+{
+    <ul class="list-group">
+        @foreach (var genre in Model.ganres)
+        {
+            <li class="list-group-item">@genre.GenresName</li>
+        }
+    </ul>
+}
+else
+{
+    <p>No genres found.</p>
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

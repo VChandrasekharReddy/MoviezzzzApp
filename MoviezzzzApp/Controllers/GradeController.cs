@@ -21,7 +21,7 @@ namespace MoviezzzzApp.Controllers
 
 
         //to get all the grades in for the movies
-        [HttpGet("getallGrades")]
+        [HttpGet("getallgrades")]
         public async Task<IActionResult> ReturnGrades()
         {
             var grades = await _context.Grade.ToListAsync();
@@ -36,7 +36,7 @@ namespace MoviezzzzApp.Controllers
         [HttpPost("addgrade")]
         public async Task<IActionResult> CreateGrade([FromBody] Grade grade)
         {
-            if (await _context.Grade.FirstOrDefaultAsync(p => p.GrageName == grade.GrageName) == null)
+            if (await _context.Grade.FirstOrDefaultAsync(p => p.GradeName == grade.GradeName) == null)
             {
                 await _context.Grade.AddAsync(grade);
                 await _context.SaveChangesAsync();

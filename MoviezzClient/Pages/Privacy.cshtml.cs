@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace moviezzzzClient.Pages
+namespace MoviezzClient.Pages
 {
     public class PrivacyModel : PageModel
     {
