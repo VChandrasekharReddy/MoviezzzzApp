@@ -11,6 +11,9 @@ namespace MoviezzClient.service
             _client = client.CreateClient("movieclient");
         }
 
+
+        //method to get teh person derails along with the roles
+
         public async Task<List<PersonDto>> GetPersonsAsync()
         {
             var response = await _client.GetAsync("Persion/getallpersons");
@@ -26,7 +29,21 @@ namespace MoviezzClient.service
             }
             return new List<PersonDto>();
         }
- 
 
+
+
+
+        //for adding to the data base
+        public async Task<bool> AddPersonAsync(PersonDao person)
+        {
+
+            var content = new StringContent(
+                JsonSerializer.Serialize(person),
+                System.Text.Encoding.UTF8,
+                "application/json"
+                );
+            var response = await _client.PostAsync("Persion/addperson", content);
+            return response.IsSuccessStatusCode;
+        }
     }
 }

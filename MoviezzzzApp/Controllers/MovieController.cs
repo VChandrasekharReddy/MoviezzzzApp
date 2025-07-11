@@ -20,6 +20,68 @@ namespace MoviezzzzApp.Controllers
         }
 
 
+        //method to send the movie details like name and id to the client and image to redirect to the movie details page to display all the details of the movie
+        [HttpGet("getmovies")]
+        public async Task<IActionResult> GetMovies()
+        {
+            var movies = await _context.Movie
+                .Select(m => new MovieinfoDto { MovieId = m.MovieId, Title = m.Title, imageUrl = m.imageUrl })
+                .ToListAsync();
+            return Ok(movies);
+        }
+
+
+        //this is the function that will return the movieinfo based on the movie id class
+        [HttpPost("movieinfo")]
+        public async Task<IActionResult> GetMovieInfoById([FromBody] Movie Movie)
+        {
+            var response = await _context.Movie.FirstOrDefaultAsync(m=>m.MovieId == Movie.MovieId);
+            if( response == null)
+            {
+                return BadRequest("no matched movies");
+            }
+            else
+            {
+                return Ok(response);
+            }
+        }
+
+
+
+
+        //get the movie by id 
+        [HttpPost("moviedetails")]
+        public async Task<IActionResult> GetMovieById([FromBody] Movie movie)
+        {
+            var moviedetails = await _context.MovieDetails
+                .Include(m=>m.Grade)
+                .Include(m=>m.Genres)
+                .Include(m=>m.Cast)
+                    .ThenInclude(r=>r.Roles)
+                .Include(m=>m.Movie)
+                .FirstOrDefaultAsync(m => m.MovieId == movie.MovieId);
+            if(moviedetails == null)
+            {
+                return BadRequest("movie not found ");
+            }else
+            {
+                return Ok(moviedetails);
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         //for geting all the movies from the movie table
         [HttpGet("getallmovies")]
         public async Task<IActionResult> GetAllMovies()
@@ -73,6 +135,8 @@ namespace MoviezzzzApp.Controllers
             }
             catch (Exception ex)
             {
+                var inner = ex.InnerException != null ? ex.InnerException.Message : "No inner exception";
+                Console.WriteLine($"Error saving changes: {ex.Message} | Inner: {inner}");
                 return BadRequest(ex.Message);
             }
 

@@ -11,7 +11,7 @@ builder.Services.AddScoped<GradeService>();
 builder.Services.AddScoped<GanresService>();
 builder.Services.AddScoped<RoleService>();
 builder.Services.AddScoped<PersonService>();
-
+builder.Services.AddScoped<MovieService>();
 
 
 var app = builder.Build();

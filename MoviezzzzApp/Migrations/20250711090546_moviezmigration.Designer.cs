@@ -12,8 +12,8 @@ using MoviezzzzApp.config;
 namespace MoviezzzzApp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250710061853_new")]
-    partial class @new
+    [Migration("20250711090546_moviezmigration")]
+    partial class moviezmigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -18,12 +18,36 @@ namespace MoviezzClient.Pages
         public List<PersonDto>? persons { get; set; } =new List<PersonDto>();
         public List<RoleDto>? AvailableRoles { get; set; } = new List<RoleDto>();
         [BindProperty]
+        public PersonDao? persondao { get; set; }= new PersonDao();
+
         public PersonDto PersonDto { get; set; } = new PersonDto();
+
+
+
+
         public async Task OnGetAsync()
         {
-            persons= await _service.GetPersonsAsync();
+            persons = await _service.GetPersonsAsync();
             AvailableRoles = await _servicerole.GetRolesAsync();
 
         }
+        public async Task<IActionResult> OnPostAsync()
+        {
+           
+            var response = await _service.AddPersonAsync(persondao);
+            if (response)
+            {
+                persons = await _service.GetPersonsAsync();
+                AvailableRoles = await _servicerole.GetRolesAsync();
+                return Page();
+            }
+            return RedirectToPage();
+        }
+
+
+
+
+                         
+
     }
 }

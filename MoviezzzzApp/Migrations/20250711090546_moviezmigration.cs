@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace MoviezzzzApp.Migrations
 {
     /// <inheritdoc />
-    public partial class m1 : Migration
+    public partial class moviezmigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -28,7 +28,7 @@ namespace MoviezzzzApp.Migrations
                 columns: table => new
                 {
                     GradeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    GrageName = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    GradeName = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
