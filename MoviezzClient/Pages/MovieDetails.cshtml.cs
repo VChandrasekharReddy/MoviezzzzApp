@@ -1,12 +1,13 @@
-﻿using MoviezzClient.dto;
+﻿using Microsoft.AspNetCore.Mvc.RazorPages;
+using MoviezzClient.dto;
 using MoviezzClient.service;
 
 namespace MoviezzClient.Pages
 {
-    public class MovieDetails
+    public class MovieDetailsModel: PageModel
     {
         private readonly MovieService _movieservice;
-        public MovieDetails(MovieService movieservice)
+        public MovieDetailsModel(MovieService movieservice)
         {
             _movieservice = movieservice;
         }
@@ -16,16 +17,17 @@ namespace MoviezzClient.Pages
 
 
 
-        //public async Task OnGet(string id)
-        //{
-        //    var movie = new MovieinfoDto()
-        //    {
-        //        MovieId = Guid.Parse(id)
-        //    };
+        public async Task OnGet(string id)
+        {
+            var movie = new MovieinfoDto()
+            {
+                MovieId = Guid.Parse(id)
+            };
 
-        //    moviedetails = await _movieservice.GetMovieDetailsById(movie);
+            moviedetails = await _movieservice.GetMovieDetailsById(movie);
+            moviedetails.Movie = await _movieservice.GetMovieInfoByIdAsync(movie);
 
-        //}
+        }
 
 
 

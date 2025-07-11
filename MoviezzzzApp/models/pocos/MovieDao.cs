@@ -4,7 +4,7 @@ namespace MoviezzzzApp.models.pocos
 {
     public class MovieDao
     {
-
+        public Guid MovieId { get; set; }
         public string? Title { get; set; }
         public string? imageUrl { get; set; }
         public string? Description { get; set; }
@@ -19,7 +19,7 @@ namespace MoviezzzzApp.models.pocos
 
         public DateTime ReleaseDate { get; set; }
         public List<string>? cast { get; set; }
-        public  List<string>? genrs { get; set; }
+        public  List<string>? genres { get; set; }
         public string? grade { get; set; }
     }
 }

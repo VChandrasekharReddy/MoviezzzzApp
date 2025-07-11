@@ -34,23 +34,42 @@ namespace MoviezzClient.service
         //getting the data from the api based on the movie id 
         public async Task<MovieDetailsDto> GetMovieDetailsById(MovieinfoDto movieinfo)
         {
-            var str = new StringContent(
-                JsonSerializer.Serialize(movieinfo),
-                System.Text.Encoding.UTF8,
-                "application/json"
-                );
-            var result = await _client.PostAsJsonAsync("Movie/moviedetails", str);
-            
-            if(result.IsSuccessStatusCode)
+            Console.WriteLine(movieinfo.MovieId);
+
+            var result = await _client.PostAsJsonAsync("Movie/moviedetails", movieinfo);
+
+            if (result.IsSuccessStatusCode)
             {
                 var options = new JsonSerializerOptions
                 {
                     PropertyNameCaseInsensitive = true
                 };
+
                 var moviedetails = await result.Content.ReadFromJsonAsync<MovieDetailsDto>(options);
                 return moviedetails ?? new MovieDetailsDto();
             }
+
             return new MovieDetailsDto();
+        }
+
+
+        //this method is used to get the movie info only by using the movie id
+        public async Task<MovieinfoDto> GetMovieInfoByIdAsync(MovieinfoDto movieinfo)
+        {
+            var result = await _client.PostAsJsonAsync("Movie/movieinfo", movieinfo);
+
+            if (result.IsSuccessStatusCode)
+            {
+                var options = new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                };
+
+                var movieDetails = await result.Content.ReadFromJsonAsync<MovieinfoDto>(options);
+                return movieDetails ?? new MovieinfoDto();
+            }
+
+            return new MovieinfoDto();
         }
 
 

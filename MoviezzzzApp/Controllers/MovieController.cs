@@ -57,9 +57,7 @@ namespace MoviezzzzApp.Controllers
                 .Include(m=>m.Grade)
                 .Include(m=>m.Genres)
                 .Include(m=>m.Cast)
-                    .ThenInclude(r=>r.Roles)
-                .Include(m=>m.Movie)
-                .FirstOrDefaultAsync(m => m.MovieId == movie.MovieId);
+                    .ThenInclude(r=>r.Roles).FirstOrDefaultAsync(m => m.MovieId == movie.MovieId);
             if(moviedetails == null)
             {
                 return BadRequest("movie not found ");
@@ -115,7 +113,7 @@ namespace MoviezzzzApp.Controllers
                     Rating = moviedao.Rating,
                     ReleaseDate = moviedao.ReleaseDate,
                     Cast = await _context.Person.Where(p => moviedao.cast.Contains(p.PersonName)).ToListAsync(),
-                    Genres = await _context.Genres.Where(g => moviedao.genrs.Contains(g.GenresName)).ToListAsync(),
+                    Genres = await _context.Genres.Where(g => moviedao.genres.Contains(g.GenresName)).ToListAsync(),
                     Grade = await _context.Grade.FirstOrDefaultAsync(g => g.GradeName.Equals(moviedao.grade))
                 };
 

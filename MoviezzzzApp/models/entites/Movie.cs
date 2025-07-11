@@ -7,7 +7,7 @@ namespace MoviezzzzApp.models.entites
         public Guid MovieId { get; set; }
         public string? Title { get; set; }
         public string? imageUrl { get; set; }
-        [JsonIgnore]
+        
 
         public MovieDetails? MovieDetails { get; set; }
 

@@ -17,7 +17,7 @@ namespace MoviezzClient.dto
         public float Rating { get; set; }
 
         public DateTime ReleaseDate { get; set; }
-        [JsonIgnore]
+
         public MovieinfoDto? Movie { get; set; }
 
         public List<PersonDto>? Cast { get; set; }

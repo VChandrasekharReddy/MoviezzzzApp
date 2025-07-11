@@ -1,4 +1,478 @@
-﻿@page
-@model MoviezzClient.Pages.MovieDetails
+﻿@page "/MovieDetails/{id}"
+
+@model MoviezzClient.Pages.MovieDetailsModel
 @{
+    ViewData["Title"] = "Movie Details";
+}
+
+@section Styles {
+    <style>
+        body {
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            min-height: 100vh;
+            color: #fff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .movie-details-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+
+        .movie-header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .movie-main-content {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 40px;
+            align-items: start;
+        }
+
+        .movie-poster-container {
+            position: relative;
+        }
+
+        .movie-poster {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .default-poster {
+            width: 100%;
+            height: 500px;
+            background: linear-gradient(45deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 15px;
+            font-size: 4rem;
+            color: white;
+        }
+
+        .movie-info {
+            padding: 20px 0;
+        }
+
+        .movie-title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #ffd700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+        }
+
+        .movie-rating {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+
+        .rating-stars {
+            color: #ffd700;
+            margin-right: 10px;
+        }
+
+        .rating-value {
+            font-weight: 600;
+            margin-right: 10px;
+        }
+
+        .movie-grade {
+            background: #ffd700;
+            color: #000;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .movie-meta {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .meta-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #ffd700;
+        }
+
+        .meta-label {
+            font-weight: 600;
+            color: #ffd700;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+        }
+
+        .meta-value {
+            font-size: 1.1rem;
+            color: #fff;
+        }
+
+        .movie-description {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .description-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #ffd700;
+        }
+
+        .description-text {
+            line-height: 1.6;
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .genres-container {
+            margin-bottom: 30px;
+        }
+
+        .genres-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #ffd700;
+        }
+
+        .genres-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .genre-tag {
+            background: rgba(255, 215, 0, 0.2);
+            color: #ffd700;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
+
+        .cast-section {
+            margin-top: 50px;
+        }
+
+        .cast-title {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 30px;
+            color: #ffd700;
+            text-align: center;
+        }
+
+        .cast-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px;
+        }
+
+        .cast-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+        }
+
+        .cast-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+            border-color: #ffd700;
+        }
+
+        .cast-photo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 15px;
+            border: 3px solid #ffd700;
+        }
+
+        .default-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-size: 2rem;
+            color: white;
+            border: 3px solid #ffd700;
+        }
+
+        .cast-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #ffd700;
+        }
+
+        .cast-roles {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+
+        .role-badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            color: #fff;
+        }
+
+        .cast-bio {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.4;
+            margin-top: 10px;
+        }
+
+        .no-cast {
+            text-align: center;
+            padding: 50px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            background: rgba(255, 215, 0, 0.2);
+            color: #ffd700;
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
+
+        .back-button:hover {
+            background: rgba(255, 215, 0, 0.3);
+            color: #ffd700;
+            text-decoration: none;
+            transform: translateX(-5px);
+        }
+
+    </style>
+}
+
+<div class="movie-details-container">
+    <!-- Back Button -->
+    <a href="/" class="back-button">
+        <i class="fas fa-arrow-left me-2"></i>
+        Back to Movies
+    </a>
+
+    <!-- Movie Header -->
+    <div class="movie-header">
+        <div class="movie-main-content">
+            <!-- Movie Poster -->
+            <div class="movie-poster-container">
+                @if (!string.IsNullOrEmpty(Model.moviedetails?.Movie?.imageUrl))
+                {
+                    <img src="@Model.moviedetails.Movie.imageUrl" alt="@Model.moviedetails.Movie.Title" class="movie-poster" 
+                         onerror="this.outerHTML='<div class=\'default-poster\'><i class=\'fas fa-film\'></i></div>'">
+                }
+                else
+                {
+                    <div class="default-poster">
+                        <i class="fas fa-film"></i>
+                    </div>
+                }
+            </div>
+
+            <!-- Movie Information -->
+            <div class="movie-info">
+                <h1 class="movie-title">@(Model.moviedetails?.Movie?.Title ?? "Unknown Title")</h1>
+                
+                <!-- Rating and Grade -->
+                <div class="movie-rating">
+                    <div class="rating-stars">
+                        @for (int i = 1; i <= 5; i++)
+                        {
+                            if (i <= Math.Floor(Model.moviedetails?.Rating ?? 0))
+                            {
+                                <i class="fas fa-star"></i>
+                            }
+                            else if (i - 0.5 <= (Model.moviedetails?.Rating ?? 0))
+                            {
+                                <i class="fas fa-star-half-alt"></i>
+                            }
+                            else
+                            {
+                                <i class="far fa-star"></i>
+                            }
+                        }
+                    </div>
+                    <span class="rating-value">@(Model.moviedetails?.Rating.ToString("F1") ?? "0.0")</span>
+                    @if (Model.moviedetails?.Grade != null)
+                    {
+                        <span class="movie-grade">@Model.moviedetails.Grade.GradeName</span>
+                    }
+                </div>
+
+                <!-- Movie Meta Information -->
+                <div class="movie-meta">
+                    <div class="meta-item">
+                        <div class="meta-label">Duration</div>
+                        <div class="meta-value">@(Model.moviedetails?.Duration ?? 0) min</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-label">Language</div>
+                        <div class="meta-value">@(Model.moviedetails?.Language ?? "N/A")</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-label">Country</div>
+                        <div class="meta-value">@(Model.moviedetails?.Country ?? "N/A")</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-label">Release Date</div>
+                        <div class="meta-value">@(Model.moviedetails?.ReleaseDate.ToString("MMMM dd, yyyy") ?? "N/A")</div>
+                    </div>
+                </div>
+
+                <!-- Genres -->
+                @if (Model.moviedetails?.Genres != null && Model.moviedetails.Genres.Any())
+                {
+                    <div class="genres-container">
+                        <div class="genres-title">Genres</div>
+                        <div class="genres-list">
+                            @foreach (var genre in Model.moviedetails.Genres)
+                            {
+                                <span class="genre-tag">@genre.GenresName</span>
+                            }
+                        </div>
+                    </div>
+                }
+
+                <!-- Description -->
+                @if (!string.IsNullOrEmpty(Model.moviedetails?.Description))
+                {
+                    <div class="movie-description">
+                        <div class="description-title">Synopsis</div>
+                        <div class="description-text">@Model.moviedetails.Description</div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Cast Section -->
+    <div class="cast-section">
+        <h2 class="cast-title">
+            <i class="fas fa-users me-3"></i>Cast & Crew
+        </h2>
+        
+        @if (Model.moviedetails?.Cast != null && Model.moviedetails.Cast.Any())
+        {
+            <div class="cast-grid">
+                @foreach (var person in Model.moviedetails.Cast)
+                {
+                    <div class="cast-card">
+                        @if (!string.IsNullOrEmpty(person.imageUrl))
+                        {
+                            <img src="@person.imageUrl" alt="@person.PersonName" class="cast-photo" 
+                                 onerror="this.outerHTML='<div class=\'default-avatar\'><i class=\'fas fa-user\'></i></div>'">
+                        }
+                        else
+                        {
+                            <div class="default-avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                        }
+                        
+                        <div class="cast-name">@(person.PersonName ?? "Unknown")</div>
+                        
+                        @if (person.Roles != null && person.Roles.Any())
+                        {
+                            <div class="cast-roles">
+                                @foreach (var role in person.Roles)
+                                {
+                                    <span class="role-badge">@role</span>
+                                }
+                            </div>
+                        }
+                        
+                        @if (!string.IsNullOrEmpty(person.Biography))
+                        {
+                            <div class="cast-bio">
+                                @(person.Biography.Length > 100 ? person.Biography.Substring(0, 100) + "..." : person.Biography)
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="no-cast">
+                <i class="fas fa-users" style="font-size: 3rem; margin-bottom: 20px; color: #ffd700;"></i>
+                <h3>No Cast Information Available</h3>
+                <p>Cast details will be added soon.</p>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Add smooth entrance animations
+        window.addEventListener('load', function() {
+            const elements = document.querySelectorAll('.cast-card, .movie-header');
+            elements.forEach((element, index) => {
+                element.style.opacity = '0';
+                element.style.transform = 'translateY(30px)';
+                
+                setTimeout(() => {
+                    element.style.transition = 'all 0.6s ease';
+                    element.style.opacity = '1';
+                    element.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+        });
+
+        // Add image loading error handling
+        document.addEventListener('DOMContentLoaded', function() {
+            const images = document.querySelectorAll('img');
+            images.forEach(img => {
+                img.addEventListener('error', function() {
+                    console.log('Image failed to load:', this.src);
+                });
+            });
+        });
+    </script>
 }
