@@ -1,4 +1,5 @@
 ﻿using MoviezzClient.dto;
+using System.Net.Http;
 using System.Text.Json;
 
 namespace MoviezzClient.service
@@ -72,6 +73,20 @@ namespace MoviezzClient.service
             return new MovieinfoDto();
         }
 
+
+        //to send to store the movies in the database
+
+        public async Task<bool> PostMovieDataAsync(MovieDao movie)
+        {
+            var jsonStr = new StringContent(
+                JsonSerializer.Serialize(movie),
+                System.Text.Encoding.UTF8,
+                "application/json"
+            );
+
+            HttpResponseMessage response = await _client.PostAsync("Movie/addMovie", jsonStr);  // ✅ Correct route
+            return response.IsSuccessStatusCode;
+        }
 
 
     }

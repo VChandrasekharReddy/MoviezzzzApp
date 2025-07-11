@@ -104,7 +104,7 @@ namespace MoviezzzzApp.Controllers
         {
             try
             {
-                var moviedetails = new MovieDetails()  //creaating the movie detaild class to add into the movie 
+                var moviedetails = new MovieDetails()
                 {
                     Description = moviedao.Description,
                     Duration = moviedao.Duration,
@@ -112,12 +112,15 @@ namespace MoviezzzzApp.Controllers
                     Country = moviedao.Country,
                     Rating = moviedao.Rating,
                     ReleaseDate = moviedao.ReleaseDate,
-                    Cast = await _context.Person.Where(p => moviedao.cast.Contains(p.PersonName)).ToListAsync(),
-                    Genres = await _context.Genres.Where(g => moviedao.genres.Contains(g.GenresName)).ToListAsync(),
-                    Grade = await _context.Grade.FirstOrDefaultAsync(g => g.GradeName.Equals(moviedao.grade))
+                    Cast = await _context.Person
+                 .Where(p => moviedao.cast.Contains(p.PersonId.ToString()))
+                 .ToListAsync(),
+                    Genres = await _context.Genres
+                 .Where(g => moviedao.genres.Contains(g.GenresId.ToString()))
+                 .ToListAsync(),
+                    GradeId = Guid.Parse(moviedao.grade),
+                    Grade = await _context.Grade.FirstOrDefaultAsync(g => g.GradeId == Guid.Parse(moviedao.grade))
                 };
-
-
 
                 var movie = new Movie()  // to add the movie 
                 {
