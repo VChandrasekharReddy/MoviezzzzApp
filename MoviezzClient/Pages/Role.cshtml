@@ -10,22 +10,41 @@
 <form method="post">
     <div class="form-group">
         <label asp-for="role.RoleName">Role Name</label>
-        <input asp-for="role.RoleName" class="form-control" />
+        <input asp-for="role.RoleName" class="form-control" placeholder="Enter role name" />
         <span asp-validation-for="role.RoleName" class="text-danger"></span>
     </div>
-    <button type="submit" class="btn btn-primary">Add Role</button>
+    <button type="submit" class="btn btn-primary mt-2">Add Role</button>
 </form>
 
 <hr />
 
 <!-- Display existing roles -->
 <h3>Existing Roles</h3>
+
 @if (Model.roles != null && Model.roles.Any())
 {
-    <ul>
-        @foreach (var role in Model.roles)
+    <ul class="list-group">
+        @foreach (var r in Model.roles)
         {
-            <li>@role.RoleName</li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                @if (Model.role.RoleId == r.RoleId)
+                {
+                    <form method="post" asp-page-handler="Update">
+                        <input type="hidden" asp-for="role.RoleId" value="@r.RoleId" />
+                        <input type="text" asp-for="role.RoleName"  class="form-control me-2" value="@r.RoleName" />
+                        <button type="submit" class="btn btn-success btn-sm me-1">Submit</button>
+                        <button type="submit" name="cancel" value="true" class="btn btn-secondary btn-sm">Cancel</button>
+                    </form>
+                }
+                else
+                {
+                    <span>@r.RoleName</span>
+                    <form method="post" asp-page-handler="Edit" class="d-inline">
+                        <input type="hidden" name="RoleId" value="@r.RoleId" />
+                        <button type="submit" class="btn btn-warning btn-sm">Update</button>
+                    </form>
+                }
+            </li>
         }
     </ul>
 }
@@ -35,7 +54,5 @@ else
 }
 
 @section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+    <partial name="_ValidationScriptsPartial" />
 }

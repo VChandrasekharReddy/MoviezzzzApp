@@ -12,7 +12,7 @@ namespace MoviezzClient.service
             _client = clientfactory.CreateClient("movieclient");
         }
 
-
+        //Get method
         //Getting the roles form the api
         public async Task<List<RoleDto>?> GetRolesAsync()
         {
@@ -35,7 +35,8 @@ namespace MoviezzClient.service
 
 
 
-
+        //create (Post)
+        //function for adding the role in the role table in the backend database
         public async Task<bool> AddRoleAsync(RoleDto role)
         {
             var jsonStr = new StringContent(

@@ -38,5 +38,18 @@ namespace MoviezzClient.Pages
 
             
         }
+        //update
+        //this  function is used to update the genres data in the backend
+        public async Task<IActionResult> OnPostUpdateAsync()
+        {
+            var result = await _service.UpdateGenresAsync(Ganres);
+            if (!result)
+            {
+                ModelState.AddModelError(string.Empty, "Failed to update genres.");
+                ganres = await _service.GetAllGanersAsync();
+                return Page();
+            }
+            return RedirectToPage();
+        }   
     }
 }

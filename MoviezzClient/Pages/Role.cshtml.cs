@@ -54,7 +54,31 @@ namespace MoviezzClient.Pages
             return RedirectToPage();
         }
 
+
+
+        //update method
+        //function to update the role in the backend database
+        public async Task<IActionResult> OnPostUpdateAsync()
+        {
+            if (ModelState.IsValid && role != null && !string.IsNullOrWhiteSpace(role.RoleName))
+            {
+                var result = await _service.UpdateRoleAsync(role);
+                if (!result)
+                {
+                    ModelState.AddModelError(string.Empty, "Failed to update role.");
+                    roles = await _service.GetRolesAsync();
+                    return Page();
+                }
+                return RedirectToPage();
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Invalid role data.");
+                roles = await _service.GetRolesAsync();
+                return Page();
+            }
+        }
     }
 
-    }
+}
 
