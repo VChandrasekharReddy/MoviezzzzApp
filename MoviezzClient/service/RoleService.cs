@@ -58,6 +58,18 @@ namespace MoviezzClient.service
         }
 
 
+        //update
+        //function for updat the role in the role table in the backend database
+        public async Task<bool> UpdateRoleAsync(RoleDto role)
+        {
+            var jsonStr = new StringContent(
+                JsonSerializer.Serialize(role),
+                System.Text.Encoding.UTF8,
+                "application/json"
+            );
+            HttpResponseMessage response = await _client.PutAsync("Role/updaterole", jsonStr);
+            return response.IsSuccessStatusCode;
+        }
 
 
 
