@@ -45,5 +45,25 @@ namespace MoviezzzzApp.Controllers
 
         }
 
+
+        //this function is for updating hte genres data{
+        [HttpPut("updategenres")]
+        public async Task<IActionResult> UpdateGenres([FromBody] Genres genres)
+        {
+            if (genres == null || genres.GenresId == Guid.Empty)
+            {
+                return BadRequest("Invalid genres data.");
+            }
+            var existingGenres = await _context.Genres.FindAsync(genres.GenresId);
+            if (existingGenres == null)
+            {
+                return NotFound("Genres not found.");
+            }
+            existingGenres.GenresName = genres.GenresName;
+            _context.Genres.Update(existingGenres);
+            await _context.SaveChangesAsync();
+            return Ok("Genres updated successfully.");
+        }
+
     }
 }

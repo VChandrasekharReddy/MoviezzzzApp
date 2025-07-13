@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.Json;
 using MoviezzzzApp.config;
 using MoviezzzzApp.models.entites;
 
@@ -44,5 +45,32 @@ namespace MoviezzzzApp.Controllers
             }
             else return BadRequest("already have or error");
         }
+
+
+        //this method is uses to update the grade
+        [HttpPut("updategrade")]
+        public async Task<IActionResult> UpdateGradeDetailsAsync([FromBody]Grade grade)
+        {
+            try
+            {
+                Grade? newgrade = await _context.Grade.FirstOrDefaultAsync(G => G.GradeId.Equals(grade.GradeId));
+                if (grade.GradeName != "")
+                {
+                    newgrade.GradeName = grade.GradeName;
+                    _context.Grade.Update(newgrade);
+                    await _context.SaveChangesAsync();
+                    return Ok(true);
+                }
+                else
+                {
+                    return BadRequest(false);
+                }
+                
+            }catch{
+                return BadRequest(false);
+
+            }
+        }
+             
     }
 }

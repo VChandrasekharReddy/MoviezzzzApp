@@ -49,5 +49,37 @@ namespace MoviezzClient.Pages
             return RedirectToPage();
         }
 
+
+
+       public async Task<IActionResult> OnPostUpdateAsync()
+        {
+            // Check if the model state is valid and GradeName is not empty
+            if (!ModelState.IsValid)
+            {
+                // Re-fetch the grade list to redisplay the page with validation errors
+                gradeDtos = await _service.GetAllGradesAsync();
+                return Page();
+            }
+
+            // Call the service to add the new grade
+            var success = await _service.UpdateGradeAsync(Grade);
+
+            if (success)
+            {
+                ModelState.AddModelError(string.Empty, "Failed to add grade.");
+                gradeDtos = await _service.GetAllGradesAsync();
+                return RedirectToPage();
+            }
+
+            // Redirect to GET to show updated list and clear the form
+            ModelState.AddModelError(string.Empty, "Failed to add grade.");
+            gradeDtos = await _service.GetAllGradesAsync();
+            return RedirectToPage();
+        }
+
+
+
+
+
     }
 }

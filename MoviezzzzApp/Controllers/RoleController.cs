@@ -38,6 +38,28 @@ namespace MoviezzzzApp.Controllers
                 var roles = await _context.Role.ToListAsync();
 
                 return Ok(roles);
-            } 
+            }
+
+
+
+        //this method is used to update the roles in the role table
+        [HttpPut("updaterole")]
+        public async Task<IActionResult> UpdateRoleAsync([FromBody] Role role)
+        {
+            if (role == null || role.RoleId == Guid.Empty)
+            {
+                return BadRequest("Invalid role data.");
+            }
+            var existingRole = await _context.Role.FindAsync(role.RoleId);
+            if (existingRole == null)
+            {
+                return NotFound("Role not found.");
+            }
+            existingRole.RoleName = role.RoleName;
+            _context.Role.Update(existingRole);
+            await _context.SaveChangesAsync();
+            return Ok("Role updated successfully.");
+        }
+
     }
 }

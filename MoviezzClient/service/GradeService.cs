@@ -44,5 +44,20 @@ namespace MoviezzClient.service
         }
 
 
+
+        //to update the grade using the gradeid and the gradename
+        public async Task<bool> UpdateGradeAsync(GradeDto grade)
+        {
+            var str = new StringContent(
+                JsonSerializer.Serialize(grade),
+                System.Text.Encoding.UTF8,
+                "application/json"
+
+                );
+            HttpResponseMessage response = await _httpClient.PutAsJsonAsync("Grade/updategrade", str);
+            return response.IsSuccessStatusCode;
+        }
+        
+
     }
 }

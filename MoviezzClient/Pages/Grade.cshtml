@@ -18,12 +18,31 @@
 <hr />
 
 <h3>Existing Grades</h3>
+
 @if (Model.gradeDtos != null && Model.gradeDtos.Any())
 {
     <ul class="list-group">
         @foreach (var grade in Model.gradeDtos)
         {
-            <li class="list-group-item">@grade.GradeName</li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                @if (Model.Grade.GradeId == grade.GradeId)
+                {
+                    <form method="post" asp-page-handler="Update">
+                        <input type="hidden" name="GradeId" asp-for="Grade.GradeId" value="@grade.GradeId" />
+                        <input type="text" name="UpdatedGradeName" asp-for="Grade.GradeName" class="form-control me-2" value="@grade.GradeName" />
+                        <button type="submit" class="btn btn-success btn-sm me-1">Submit</button>
+                        <button type="submit" name="cancel" value="true" class="btn btn-secondary btn-sm">Cancel</button>
+                    </form>
+                }
+                else
+                {
+                    <span>@grade.GradeName</span>
+                    <form method="post" asp-page-handler="Edit" class="d-inline">
+                        <input type="hidden" name="GradeId" value="@grade.GradeId" />
+                        <button type="submit" class="btn btn-warning btn-sm">Update</button>
+                    </form>
+                }
+            </li>
         }
     </ul>
 }
