@@ -53,33 +53,27 @@ namespace MoviezzClient.Pages
 
        public async Task<IActionResult> OnPostUpdateAsync()
         {
-            // Check if the model state is valid and GradeName is not empty
-            if (!ModelState.IsValid)
+          if(ModelState.IsValid && !string.IsNullOrWhiteSpace(Grade.GradeName))
             {
-                // Re-fetch the grade list to redisplay the page with validation errors
-                gradeDtos = await _service.GetAllGradesAsync();
-                return Page();
+                var success = await _service.UpdateGradeAsync(Grade);
+                if (success)
+                {
+
+                    return RedirectToPage();
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Failed to update grade.");
+                }
             }
-
-            // Call the service to add the new grade
-            var success = await _service.UpdateGradeAsync(Grade);
-
-            if (success)
+            else
             {
-                ModelState.AddModelError(string.Empty, "Failed to add grade.");
-                gradeDtos = await _service.GetAllGradesAsync();
-                return RedirectToPage();
+                ModelState.AddModelError(string.Empty, "Invalid grade data.");
             }
-
-            // Redirect to GET to show updated list and clear the form
-            ModelState.AddModelError(string.Empty, "Failed to add grade.");
+            // Re-fetch the grade list to redisplay the page with validation errors
             gradeDtos = await _service.GetAllGradesAsync();
-            return RedirectToPage();
+            return Page();
         }
-
-
-
-
 
     }
 }

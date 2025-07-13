@@ -54,7 +54,7 @@ namespace MoviezzClient.service
                 "application/json"
 
                 );
-            HttpResponseMessage response = await _httpClient.PutAsJsonAsync("Grade/updategrade", str);
+            HttpResponseMessage response = await _httpClient.PutAsync("Grade/updategrade", str);
             return response.IsSuccessStatusCode;
         }
         

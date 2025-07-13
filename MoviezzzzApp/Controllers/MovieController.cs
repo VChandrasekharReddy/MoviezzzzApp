@@ -142,5 +142,52 @@ namespace MoviezzzzApp.Controllers
             }
 
         }
+
+
+
+
+        //this is the function that is used to update hte movie details based on teh movie class
+        [HttpPut("updatemovie")]
+        public async Task<IActionResult> UpdateMovieAsync([FromBody] MovieDao moviedao)
+        {
+            if (moviedao == null || moviedao.MovieId == Guid.Empty)
+            {
+                return BadRequest("Invalid movie data.");
+            }
+            var movies = await _context.Movie
+                .Include(m => m.MovieDetails)
+                    .ThenInclude(p => p.Cast)
+                        .ThenInclude(r => r.Roles)
+                .Include(m => m.MovieDetails)
+                    .ThenInclude(g => g.Genres)
+                .Include(m => m.MovieDetails)
+                    .ThenInclude(g => g.Grade)
+                .ToListAsync();
+            var existingMovie = movies.FirstOrDefault(m => m.MovieId == moviedao.MovieId);
+            if (existingMovie == null)
+            {
+                return NotFound("Movie not found.");
+            }
+            existingMovie.Title = moviedao.Title;
+            existingMovie.imageUrl = moviedao.imageUrl;
+            existingMovie.MovieDetails.Description = moviedao.Description;
+            existingMovie.MovieDetails.Duration = moviedao.Duration;
+            existingMovie.MovieDetails.Language = moviedao.Language;
+            existingMovie.MovieDetails.Country = moviedao.Country;
+            existingMovie.MovieDetails.Rating = moviedao.Rating;
+            existingMovie.MovieDetails.ReleaseDate = moviedao.ReleaseDate;
+            existingMovie.MovieDetails.Cast = await _context.Person
+                .Where(p => moviedao.cast.Contains(p.PersonId.ToString()))
+                .ToListAsync();
+            existingMovie.MovieDetails.Genres = await _context.Genres
+               .Where(g=>moviedao.genres.Contains(g.GenresId.ToString()))
+               .ToListAsync();
+            existingMovie.MovieDetails.GradeId = Guid.Parse(moviedao.grade);
+            existingMovie.MovieDetails.Grade = await _context.Grade.FirstOrDefaultAsync(p => p.GradeId.Equals(Guid.Parse(moviedao.grade)));
+            _context.Movie.Update(existingMovie);
+            await _context.SaveChangesAsync();
+            return Ok("Sucess");
+
+        }
     }
 }

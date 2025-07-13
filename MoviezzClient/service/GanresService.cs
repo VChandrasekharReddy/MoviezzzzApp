@@ -28,7 +28,7 @@ namespace MoviezzClient.service
             }
         }
 
-
+        //this is the function to crete the genres data in the backed database
         public async Task<bool> CreateGenresAsync(GenresDto genres)
         {
             var jstring = new StringContent(
@@ -39,6 +39,17 @@ namespace MoviezzClient.service
             HttpResponseMessage response = await _httpClient.PostAsync("Genres/creategenres",jstring);
             return response.IsSuccessStatusCode;
 
+        }
+
+        //this is the function that is used to update the database in the backend
+        public async Task<bool> UpdateGenresAsync(GenresDto genres)
+        {
+            var str = new StringContent(
+                JsonSerializer.Serialize(genres),
+                System.Text.Encoding.UTF8,
+                "application/json");
+            HttpResponseMessage response = await _httpClient.PutAsync("Genres/updategenres", str);
+            return response.IsSuccessStatusCode;
         }
     }
 }

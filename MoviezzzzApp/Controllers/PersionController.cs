@@ -48,5 +48,31 @@ namespace MoviezzzzApp.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+
+
+        //this method is for updating the person data using the person class
+        [HttpPut("updateperson")]
+        public async Task<IActionResult> UpdatePerson([FromBody] Person person)
+        {
+            if (person == null || person.PersonId == Guid.Empty)
+            {
+                return BadRequest("Invalid person data.");
+            }
+            var existingPerson = await _context.Person.FindAsync(person.PersonId);
+            if (existingPerson == null)
+            {
+                return NotFound("Person not found.");
+            }
+            existingPerson.PersonName = person.PersonName;
+            existingPerson.imageUrl = person.imageUrl;
+            existingPerson.Biography = person.Biography;
+            existingPerson.DateOfBirth = person.DateOfBirth;
+            existingPerson.Roles = person.Roles;
+            _context.Person.Update(existingPerson);
+            await _context.SaveChangesAsync();
+            return Ok("Person updated successfully.");
+        }   
+
     }
 }

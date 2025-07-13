@@ -28,8 +28,8 @@
                 @if (Model.Grade.GradeId == grade.GradeId)
                 {
                     <form method="post" asp-page-handler="Update">
-                        <input type="hidden" name="GradeId" asp-for="Grade.GradeId" value="@grade.GradeId" />
-                        <input type="text" name="UpdatedGradeName" asp-for="Grade.GradeName" class="form-control me-2" value="@grade.GradeName" />
+                        <input type="hidden"  asp-for="Grade.GradeId" value="@grade.GradeId" />
+                        <input type="text"  asp-for="Grade.GradeName" class="form-control me-2" value="@grade.GradeName" />
                         <button type="submit" class="btn btn-success btn-sm me-1">Submit</button>
                         <button type="submit" name="cancel" value="true" class="btn btn-secondary btn-sm">Cancel</button>
                     </form>

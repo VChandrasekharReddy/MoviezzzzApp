@@ -65,5 +65,8 @@ namespace MoviezzzzApp.Controllers
             return Ok("Genres updated successfully.");
         }
 
+
+
+
     }
 }
